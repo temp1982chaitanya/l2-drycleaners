@@ -106,7 +106,7 @@ export default function Register() {
         <div className="flex flex-col items-center justify-center flex-1">
           <div className="mx-auto w-full max-w-md space-y-6">
             <div className="space-y-2 text-center">
-              <Image src="/logo.svg" alt="L1 Dry Cleaners Logo" width={60} height={60} className="mx-auto" />
+              <Image src="/blue-lotus-logo.svg" alt="L2 Dry Cleaners Logo" width={60} height={60} className="mx-auto" />
               <h1 className="text-3xl font-bold">Create an Account</h1>
               <p className="text-gray-500">Enter your details to register with L1 Dry Cleaners</p>
             </div>

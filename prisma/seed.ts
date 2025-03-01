@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 async function main() {
   // Create admin user
-  const adminPassword = await bcrypt.hash('admin1234', 10)
+  const adminPassword = await bcrypt.hash('123456', 10)
   const admin = await prisma.user.create({
     data: {
       email: 'admin1@l2drycleaners.com',

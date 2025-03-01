@@ -2,45 +2,12 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { PhoneCall, MapPin, Clock, ArrowRight } from "lucide-react"
+import { Navbar } from "@/components/Navbar"
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-50 w-full border-b bg-white">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Image src="/flower-logo.svg" alt="L2 Dry Cleaners Logo" width={40} height={40} />
-            <span className="text-xl font-bold text-sky-600">L2 Dry Cleaners</span>
-          </div>
-          <nav className="hidden md:flex gap-6">
-            <Link href="/" className="text-sm font-medium hover:text-sky-600">
-              Home
-            </Link>
-            <Link href="/services" className="text-sm font-medium hover:text-sky-600">
-              Services
-            </Link>
-            <Link href="/how-it-works" className="text-sm font-medium hover:text-sky-600">
-              How It Works
-            </Link>
-            <Link href="/pricing" className="text-sm font-medium hover:text-sky-600">
-              Pricing
-            </Link>
-            <Link href="/contact" className="text-sm font-medium hover:text-sky-600">
-              Contact
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Link href="/login">
-              <Button variant="outline" className="hidden md:flex">
-                Login
-              </Button>
-            </Link>
-            <Link href="/register">
-              <Button className="bg-yellow-400 hover:bg-yellow-500 text-black">Register</Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Navbar />
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-sky-100 to-white">
           <div className="container px-4 md:px-6">
@@ -63,11 +30,12 @@ export default function Home() {
               </div>
               <div className="mx-auto w-full max-w-[500px] relative">
                 <Image
-                  src="/dry-cleaning.jpg"
+                  src="/l2-drycleaning.jpg"
                   alt="Dry cleaning service"
                   width={500}
                   height={500}
                   className="rounded-xl"
+                  priority
                 />
               </div>
             </div>
@@ -221,7 +189,7 @@ export default function Home() {
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <Image src="/flower-logo.svg" alt="L2 Dry Cleaners Logo" width={40} height={40} />
+                <Image src="/blue-lotus-logo.svg" alt="L2 Dry Cleaners Logo" width={60} height={60} className="rounded-full" />
                 <span className="text-xl font-bold text-sky-600">L2 Dry Cleaners</span>
               </div>
               <p className="text-gray-500">Premium dry cleaning service at your doorstep.</p>

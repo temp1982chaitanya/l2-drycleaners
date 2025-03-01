@@ -145,8 +145,8 @@ export default function Dashboard() {
       <aside className="hidden md:flex flex-col w-64 bg-white border-r">
         <div className="p-4 border-b">
           <div className="flex items-center gap-2">
-            <Image src="/logo.svg" alt="L1 Dry Cleaners Logo" width={40} height={40} />
-            <span className="text-xl font-bold text-sky-600">L1 Dry Cleaners</span>
+            <Image src="/blue-lotus-logo.svg" alt="L2 Dry Cleaners Logo" width={40} height={40} />
+            <span className="text-xl font-bold text-sky-600">L2 Dry Cleaners</span>
           </div>
         </div>
         <nav className="flex-1 p-4 space-y-1">
@@ -199,8 +199,8 @@ export default function Dashboard() {
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b">
             <div className="flex items-center gap-2">
-              <Image src="/logo.svg" alt="L1 Dry Cleaners Logo" width={40} height={40} />
-              <span className="text-xl font-bold text-sky-600">L1 Dry Cleaners</span>
+              <Image src="/blue-lotus-logo.svg" alt="L2 Dry Cleaners Logo" width={40} height={40} />
+              <span className="text-xl font-bold text-sky-600">L2 Dry Cleaners</span>
             </div>
             <button onClick={() => setMobileMenuOpen(false)}>
               <X className="h-6 w-6" />
