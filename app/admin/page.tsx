@@ -1,7 +1,5 @@
 "use client"
 
-import { CardFooter } from "@/components/ui/card"
-
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
@@ -26,17 +24,9 @@ import {
   Menu,
   X,
 } from "lucide-react"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { OrderStatus } from "@prisma/client"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import type { OrderStatus } from "@prisma/client"
 
 interface Order {
   id: string
@@ -49,7 +39,6 @@ interface Order {
 
 export default function AdminDashboard() {
   const router = useRouter()
-  const supabase = createClientComponentClient()
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -65,33 +54,35 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     const checkUser = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
+      try {
+        const response = await fetch("/api/auth/session")
+        const session = await response.json()
 
-      if (!session) {
+        if (!session || !session.user) {
+          router.push("/login")
+          return
+        }
+
+        // Check if user is admin
+        if (session.user.role !== "ADMIN") {
+          router.push("/dashboard")
+          return
+        }
+
+        setUser(session.user)
+
+        // Fetch data
+        fetchData()
+
+        setLoading(false)
+      } catch (error) {
+        console.error("Error checking session:", error)
         router.push("/login")
-        return
       }
-
-      // Check if user is admin
-      const { data: userData } = await supabase.from("users").select("*").eq("id", session.user.id).single()
-
-      if (!userData || userData.role !== "admin") {
-        router.push("/dashboard")
-        return
-      }
-
-      setUser(session.user)
-
-      // Fetch data
-      fetchData()
-
-      setLoading(false)
     }
 
     checkUser()
-  }, [router, supabase])
+  }, [router])
 
   const fetchData = async () => {
     // In a real app, you would fetch from your database
@@ -120,9 +111,9 @@ export default function AdminDashboard() {
     setOrders(mockOrders)
     setStats({
       totalOrders: mockOrders.length,
-      pendingPickup: mockOrders.filter(o => o.status === "PENDING_PICKUP").length,
-      processing: mockOrders.filter(o => o.status === "PROCESSING").length,
-      readyForDelivery: mockOrders.filter(o => o.status === "READY_FOR_DELIVERY").length,
+      pendingPickup: mockOrders.filter((o) => o.status === "PENDING_PICKUP").length,
+      processing: mockOrders.filter((o) => o.status === "PROCESSING").length,
+      readyForDelivery: mockOrders.filter((o) => o.status === "READY_FOR_DELIVERY").length,
     })
 
     setCustomers([
@@ -197,7 +188,7 @@ export default function AdminDashboard() {
   }
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
+    await fetch("/api/auth/signout", { method: "POST" })
     router.push("/login")
   }
 
@@ -236,9 +227,7 @@ export default function AdminDashboard() {
   }
 
   const handleStatusChange = (orderId: string, newStatus: string) => {
-    setOrders(orders.map(order => 
-      order.id === orderId ? { ...order, status: newStatus as OrderStatus } : order
-    ))
+    setOrders(orders.map((order) => (order.id === orderId ? { ...order, status: newStatus as OrderStatus } : order)))
   }
 
   if (loading) {
@@ -255,7 +244,7 @@ export default function AdminDashboard() {
       <aside className="hidden md:flex flex-col w-64 bg-white border-r">
         <div className="p-4 border-b">
           <div className="flex items-center gap-2">
-            <Image src="/logo.svg" alt="L1 Dry Cleaners Logo" width={40} height={40} />
+            <Image src="/blue-lotus-logo.svg" alt="L2 Dry Cleaners Logo" width={40} height={40} />
             <span className="text-xl font-bold text-sky-600">Admin Panel</span>
           </div>
         </div>
@@ -316,7 +305,7 @@ export default function AdminDashboard() {
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b">
             <div className="flex items-center gap-2">
-              <Image src="/logo.svg" alt="L1 Dry Cleaners Logo" width={40} height={40} />
+              <Image src="/blue-lotus-logo.svg" alt="L2 Dry Cleaners Logo" width={40} height={40} />
               <span className="text-xl font-bold text-sky-600">Admin Panel</span>
             </div>
             <button onClick={() => setMobileMenuOpen(false)}>
@@ -465,10 +454,7 @@ export default function AdminDashboard() {
                         <TableCell>{order.id}</TableCell>
                         <TableCell>{order.customerName}</TableCell>
                         <TableCell>
-                          <Select
-                            value={order.status}
-                            onValueChange={(value) => handleStatusChange(order.id, value)}
-                          >
+                          <Select value={order.status} onValueChange={(value) => handleStatusChange(order.id, value)}>
                             <SelectTrigger className="w-[180px]">
                               <SelectValue placeholder="Status" />
                             </SelectTrigger>

@@ -16,12 +16,10 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { format } from "date-fns"
 import { CalendarIcon, ArrowLeft, Home, Package, Clock, User, Settings, LogOut, Menu, X } from "lucide-react"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 
 export default function SchedulePickup() {
   const router = useRouter()
-  const supabase = createClientComponentClient()
   const [date, setDate] = useState<Date | undefined>(undefined)
   const [timeSlot, setTimeSlot] = useState("")
   const [address, setAddress] = useState("")
@@ -33,7 +31,7 @@ export default function SchedulePickup() {
   const [loading, setLoading] = useState(false)
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
+    await fetch("/api/auth/signout", { method: "POST" })
     router.push("/login")
   }
 
@@ -64,8 +62,8 @@ export default function SchedulePickup() {
       <aside className="hidden md:flex flex-col w-64 bg-white border-r">
         <div className="p-4 border-b">
           <div className="flex items-center gap-2">
-            <Image src="/logo.svg" alt="L1 Dry Cleaners Logo" width={40} height={40} />
-            <span className="text-xl font-bold text-sky-600">L1 Dry Cleaners</span>
+            <Image src="/blue-lotus-logo.svg" alt="L2 Dry Cleaners Logo" width={40} height={40} />
+            <span className="text-xl font-bold text-sky-600">L2 Dry Cleaners</span>
           </div>
         </div>
         <nav className="flex-1 p-4 space-y-1">
@@ -118,8 +116,8 @@ export default function SchedulePickup() {
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b">
             <div className="flex items-center gap-2">
-              <Image src="/logo.svg" alt="L1 Dry Cleaners Logo" width={40} height={40} />
-              <span className="text-xl font-bold text-sky-600">L1 Dry Cleaners</span>
+              <Image src="/blue-lotus-logo.svg" alt="L2 Dry Cleaners Logo" width={40} height={40} />
+              <span className="text-xl font-bold text-sky-600">L2 Dry Cleaners</span>
             </div>
             <button onClick={() => setMobileMenuOpen(false)}>
               <X className="h-6 w-6" />

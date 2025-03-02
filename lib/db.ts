@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { Prisma } from "@prisma/client"
 
 const prisma = new Prisma()
 
@@ -7,7 +7,7 @@ export interface User {
   email: string
   password: string
   name: string
-  role: 'ADMIN' | 'CUSTOMER'
+  role: "ADMIN" | "CUSTOMER"
   createdAt: Date
   orders: Order[]
 }
@@ -15,7 +15,7 @@ export interface User {
 export interface Order {
   id: string
   userId: string
-  status: 'PENDING_PICKUP' | 'PICKED_UP' | 'PROCESSING' | 'READY_FOR_DELIVERY' | 'DELIVERED'
+  status: "PENDING_PICKUP" | "PICKED_UP" | "PROCESSING" | "READY_FOR_DELIVERY" | "DELIVERED"
   items: OrderItem[]
   totalAmount: number
   pickupDate: Date
@@ -34,11 +34,11 @@ export interface OrderItem {
 
 // Sample admin user
 export const adminUser = {
-  id: 'admin1',
-  email: 'admin1@l2drycleaners.com',
-  password: 'admin1234', // In production, this should be hashed
-  name: 'Admin1',
-  role: 'ADMIN' as const,
+  id: "admin1",
+  email: "admin1@l2drycleaners.com",
+  password: "admin1234", // In production, this should be hashed
+  name: "Admin1",
+  role: "ADMIN" as const,
   createdAt: new Date(),
 }
 
@@ -48,8 +48,9 @@ export const sampleCustomers = Array.from({ length: 10 }, (_, i) => ({
   email: `ab${i + 1}@example.com`,
   password: `password${i + 1}`, // In production, these should be hashed
   name: `AB-${i + 1}`,
-  role: 'CUSTOMER' as const,
+  role: "CUSTOMER" as const,
   createdAt: new Date(),
 }))
 
-export { prisma } 
+export { prisma }
+

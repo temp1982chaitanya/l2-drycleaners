@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { OrderStatus } from "@prisma/client"
+import type { OrderStatus } from "@prisma/client"
 
 interface OrderItem {
   id: string
@@ -92,18 +92,12 @@ export default function TrackOrderPage() {
             value={orderId}
             onChange={(e) => setOrderId(e.target.value)}
           />
-          <Button 
-            onClick={handleTrack} 
-            className="bg-yellow-400 hover:bg-yellow-500 text-black"
-            disabled={loading}
-          >
+          <Button onClick={handleTrack} className="bg-yellow-400 hover:bg-yellow-500 text-black" disabled={loading}>
             {loading ? "Tracking..." : "Track"}
           </Button>
         </div>
 
-        {error && (
-          <div className="text-red-500 mb-4">{error}</div>
-        )}
+        {error && <div className="text-red-500 mb-4">{error}</div>}
 
         {orderDetails && (
           <div className="space-y-6">
@@ -178,4 +172,5 @@ export default function TrackOrderPage() {
       </div>
     </div>
   )
-} 
+}
+

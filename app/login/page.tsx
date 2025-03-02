@@ -24,6 +24,9 @@ export default function Login() {
     if (searchParams?.get("registered") === "true") {
       setSuccess("Registration successful! Please login.")
     }
+    if (searchParams?.get("error")) {
+      setError(searchParams.get("error") || "An error occurred")
+    }
   }, [searchParams])
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -40,13 +43,14 @@ export default function Login() {
 
       if (result?.error) {
         setError(result.error)
+        setLoading(false)
         return
       }
 
-      // Successful login
+      // Successful login - redirect based on role
       const response = await fetch("/api/auth/session")
       const session = await response.json()
-      
+
       if (session?.user?.role === "ADMIN") {
         router.push("/admin")
       } else {
@@ -54,7 +58,6 @@ export default function Login() {
       }
     } catch (error: any) {
       setError(error.message || "Login failed")
-    } finally {
       setLoading(false)
     }
   }
@@ -105,11 +108,7 @@ export default function Login() {
                 />
               </div>
               {error && <p className="text-red-500 text-sm">{error}</p>}
-              <Button
-                type="submit"
-                className="w-full bg-yellow-400 hover:bg-yellow-500 text-black"
-                disabled={loading}
-              >
+              <Button type="submit" className="w-full bg-yellow-400 hover:bg-yellow-500 text-black" disabled={loading}>
                 {loading ? "Logging in..." : "Login"}
               </Button>
               <p className="text-center text-sm text-gray-500">

@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
@@ -10,11 +9,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
 export default function Register() {
   const router = useRouter()
-  const supabase = createClientComponentClient()
   const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
@@ -56,40 +53,30 @@ export default function Register() {
     }
 
     try {
-      // In a real app, you would verify the OTP with your SMS service
-      // For demo purposes, we'll simulate verification and create the user
-
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        phone: phoneNumber,
-        options: {
-          data: {
-            full_name: fullName,
-            address,
-          },
+      // Register the user
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      })
-
-      if (error) throw error
-
-      // Register in your custom users table
-      const { error: profileError } = await supabase.from("users").insert([
-        {
-          id: data.user?.id,
-          full_name: fullName,
+        body: JSON.stringify({
+          name: fullName,
           email,
+          password,
           phone: phoneNumber,
           address,
-        },
-      ])
+        }),
+      })
 
-      if (profileError) throw profileError
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed")
+      }
 
       router.push("/login?registered=true")
     } catch (error: any) {
       setError(error.message || "Registration failed")
-    } finally {
       setLoading(false)
     }
   }
@@ -108,7 +95,7 @@ export default function Register() {
             <div className="space-y-2 text-center">
               <Image src="/blue-lotus-logo.svg" alt="L2 Dry Cleaners Logo" width={60} height={60} className="mx-auto" />
               <h1 className="text-3xl font-bold">Create an Account</h1>
-              <p className="text-gray-500">Enter your details to register with L1 Dry Cleaners</p>
+              <p className="text-gray-500">Enter your details to register with L2 Dry Cleaners</p>
             </div>
             {!otpSent ? (
               <form onSubmit={handleSendOTP} className="space-y-4">
@@ -206,7 +193,7 @@ export default function Register() {
           <div className="max-w-md space-y-6 text-white">
             <h2 className="text-3xl font-bold">Experience Premium Dry Cleaning</h2>
             <p className="text-sky-100">
-              Join L1 Dry Cleaners for doorstep pickup and delivery, quality cleaning, and exceptional service.
+              Join L2 Dry Cleaners for doorstep pickup and delivery, quality cleaning, and exceptional service.
             </p>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-sky-500/20 p-4 rounded-lg">

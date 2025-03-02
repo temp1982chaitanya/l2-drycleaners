@@ -10,7 +10,7 @@ import { signOut, useSession } from "next-auth/react"
 
 export function Navbar() {
   const pathname = usePathname()
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const isActive = (path: string) => {
@@ -31,7 +31,13 @@ export function Navbar() {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2">
-            <Image src="/blue-lotus-logo.svg" alt="L2 Dry Cleaners Logo" width={45} height={45} className="rounded-full" />
+            <Image
+              src="/blue-lotus-logo.svg"
+              alt="L2 Dry Cleaners Logo"
+              width={45}
+              height={45}
+              className="rounded-full"
+            />
             <span className="text-xl font-bold text-sky-600">L2 Dry Cleaners</span>
           </Link>
         </div>
@@ -56,12 +62,8 @@ export function Navbar() {
 
         {/* Desktop Auth Buttons */}
         <div className="hidden md:flex items-center gap-4">
-          {session?.user ? (
-            <Button 
-              variant="outline"
-              onClick={() => signOut()}
-              className="text-sm"
-            >
+          {status === "authenticated" ? (
+            <Button variant="outline" onClick={() => signOut()} className="text-sm">
               Logout
             </Button>
           ) : (
@@ -72,24 +74,15 @@ export function Navbar() {
                 </Button>
               </Link>
               <Link href="/register">
-                <Button className="bg-yellow-400 hover:bg-yellow-500 text-black text-sm">
-                  Register
-                </Button>
+                <Button className="bg-yellow-400 hover:bg-yellow-500 text-black text-sm">Register</Button>
               </Link>
             </>
           )}
         </div>
 
         {/* Mobile Menu Button */}
-        <button
-          className="md:hidden p-2 -mr-2"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? (
-            <X className="h-6 w-6 text-gray-600" />
-          ) : (
-            <Menu className="h-6 w-6 text-gray-600" />
-          )}
+        <button className="md:hidden p-2 -mr-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          {isMobileMenuOpen ? <X className="h-6 w-6 text-gray-600" /> : <Menu className="h-6 w-6 text-gray-600" />}
         </button>
       </div>
 
@@ -117,8 +110,8 @@ export function Navbar() {
               </Link>
             )}
             <div className="pt-4 space-y-2">
-              {session?.user ? (
-                <Button 
+              {status === "authenticated" ? (
+                <Button
                   variant="outline"
                   onClick={() => {
                     signOut()
@@ -136,9 +129,7 @@ export function Navbar() {
                     </Button>
                   </Link>
                   <Link href="/register" className="block">
-                    <Button className="w-full bg-yellow-400 hover:bg-yellow-500 text-black text-sm">
-                      Register
-                    </Button>
+                    <Button className="w-full bg-yellow-400 hover:bg-yellow-500 text-black text-sm">Register</Button>
                   </Link>
                 </>
               )}
@@ -148,4 +139,5 @@ export function Navbar() {
       )}
     </header>
   )
-} 
+}
+

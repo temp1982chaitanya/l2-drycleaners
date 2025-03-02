@@ -8,10 +8,7 @@ export async function GET(request: Request) {
   const orderId = searchParams.get("orderId")
 
   if (!orderId) {
-    return NextResponse.json(
-      { error: "Order ID is required" },
-      { status: 400 }
-    )
+    return NextResponse.json({ error: "Order ID is required" }, { status: 400 })
   }
 
   try {
@@ -29,10 +26,7 @@ export async function GET(request: Request) {
     })
 
     if (!order) {
-      return NextResponse.json(
-        { error: "Order not found" },
-        { status: 404 }
-      )
+      return NextResponse.json({ error: "Order not found" }, { status: 404 })
     }
 
     // Create a timeline based on order status
@@ -45,7 +39,12 @@ export async function GET(request: Request) {
       completed: true,
     })
 
-    if (order.status === "PICKED_UP" || order.status === "PROCESSING" || order.status === "READY_FOR_DELIVERY" || order.status === "DELIVERED") {
+    if (
+      order.status === "PICKED_UP" ||
+      order.status === "PROCESSING" ||
+      order.status === "READY_FOR_DELIVERY" ||
+      order.status === "DELIVERED"
+    ) {
       timeline.push({
         status: "PICKED_UP",
         date: new Date(order.pickupDate).toLocaleString(),
@@ -89,9 +88,7 @@ export async function GET(request: Request) {
     })
   } catch (error) {
     console.error("Error fetching order:", error)
-    return NextResponse.json(
-      { error: "Failed to fetch order details" },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: "Failed to fetch order details" }, { status: 500 })
   }
-} 
+}
+

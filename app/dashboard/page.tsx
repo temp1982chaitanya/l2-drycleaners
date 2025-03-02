@@ -8,12 +8,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Home, Package, Clock, Truck, CheckCircle, Star, LogOut, User, Settings, Menu, X, Plus } from "lucide-react"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 
 export default function Dashboard() {
   const router = useRouter()
-  const supabase = createClientComponentClient()
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -22,25 +20,29 @@ export default function Dashboard() {
 
   useEffect(() => {
     const checkUser = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
+      try {
+        const response = await fetch("/api/auth/session")
+        const session = await response.json()
 
-      if (!session) {
+        if (!session || !session.user) {
+          router.push("/login")
+          return
+        }
+
+        setUser(session.user)
+
+        // Fetch user's orders
+        fetchOrders()
+
+        setLoading(false)
+      } catch (error) {
+        console.error("Error checking session:", error)
         router.push("/login")
-        return
       }
-
-      setUser(session.user)
-
-      // Fetch user's orders
-      fetchOrders()
-
-      setLoading(false)
     }
 
     checkUser()
-  }, [router, supabase])
+  }, [router])
 
   const fetchOrders = async () => {
     // In a real app, you would fetch from your database
@@ -112,7 +114,7 @@ export default function Dashboard() {
   }
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
+    await fetch("/api/auth/signout", { method: "POST" })
     router.push("/login")
   }
 

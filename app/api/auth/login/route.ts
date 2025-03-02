@@ -14,19 +14,13 @@ export async function POST(request: Request) {
     })
 
     if (!user) {
-      return NextResponse.json(
-        { message: "Invalid email or password" },
-        { status: 401 }
-      )
+      return NextResponse.json({ message: "Invalid email or password" }, { status: 401 })
     }
 
     // Compare the hashed password
     const isValidPassword = await bcrypt.compare(password, user.password)
     if (!isValidPassword) {
-      return NextResponse.json(
-        { message: "Invalid email or password" },
-        { status: 401 }
-      )
+      return NextResponse.json({ message: "Invalid email or password" }, { status: 401 })
     }
 
     // Return user info (excluding password)
@@ -38,9 +32,7 @@ export async function POST(request: Request) {
     })
   } catch (error) {
     console.error("Login error:", error)
-    return NextResponse.json(
-      { message: "An error occurred during login" },
-      { status: 500 }
-    )
+    return NextResponse.json({ message: "An error occurred during login" }, { status: 500 })
   }
-} 
+}
+

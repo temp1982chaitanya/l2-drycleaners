@@ -9,17 +9,13 @@ export async function POST(request: Request) {
     const { userId, items, pickupDate } = body
 
     if (!userId || !items || !pickupDate) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
     // Calculate total amount
     const totalAmount = items.reduce(
-      (sum: number, item: { quantity: number; price: number }) => 
-        sum + (item.quantity * item.price),
-      0
+      (sum: number, item: { quantity: number; price: number }) => sum + item.quantity * item.price,
+      0,
     )
 
     const order = await prisma.order.create({
@@ -49,9 +45,7 @@ export async function POST(request: Request) {
     return NextResponse.json(order)
   } catch (error) {
     console.error("Error creating order:", error)
-    return NextResponse.json(
-      { error: "Failed to create order" },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: "Failed to create order" }, { status: 500 })
   }
-} 
+}
+

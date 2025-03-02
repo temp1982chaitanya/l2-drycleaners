@@ -189,7 +189,13 @@ export default function Home() {
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <Image src="/blue-lotus-logo.svg" alt="L2 Dry Cleaners Logo" width={60} height={60} className="rounded-full" />
+                <Image
+                  src="/blue-lotus-logo.svg"
+                  alt="L2 Dry Cleaners Logo"
+                  width={60}
+                  height={60}
+                  className="rounded-full"
+                />
                 <span className="text-xl font-bold text-sky-600">L2 Dry Cleaners</span>
               </div>
               <p className="text-gray-500">Premium dry cleaning service at your doorstep.</p>

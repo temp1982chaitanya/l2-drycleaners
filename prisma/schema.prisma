@@ -1,48 +1,50 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        String   @id @default(cuid())
   email     String   @unique
   password  String
   name      String
+  phone     String?
+  address   String?
   role      Role     @default(CUSTOMER)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   orders    Order[]
 }
 
 model Order {
-  id           String      @id @default(uuid())
-  user         User        @relation(fields: [userId], references: [id])
+  id           String      @id @default(cuid())
   userId       String
   status       OrderStatus @default(PENDING_PICKUP)
-  items        OrderItem[]
   totalAmount  Float
   pickupDate   DateTime
   deliveryDate DateTime?
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
+  items        OrderItem[]
+  user         User        @relation(fields: [userId], references: [id])
 }
 
 model OrderItem {
-  id          String  @id @default(uuid())
-  order       Order   @relation(fields: [orderId], references: [id])
+  id          String   @id @default(cuid())
   orderId     String
   serviceType String
   quantity    Int
   price       Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
@@ -57,3 +59,4 @@ enum OrderStatus {
   READY_FOR_DELIVERY
   DELIVERED
 }
+

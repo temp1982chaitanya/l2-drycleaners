@@ -1,14 +1,16 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import { Providers } from './providers'
-import { Navbar } from '@/components/Navbar'
+import type React from "react"
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import "./globals.css"
+import { Providers } from "./providers"
+import { Navbar } from "@/components/Navbar"
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: 'L2 Dry Cleaners',
-  description: 'Your trusted dry cleaning service',
+  title: "L2 Dry Cleaners",
+  description: "Your trusted dry cleaning service",
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -27,3 +29,7 @@ export default function RootLayout({
     </html>
   )
 }
+
+
+
+import './globals.css'

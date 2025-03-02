@@ -32,22 +32,22 @@ export default function ContactPage() {
         {locations.map((location, index) => (
           <div key={index} className="border rounded-lg p-6 space-y-4">
             <h2 className="text-xl font-semibold">{location.name}</h2>
-            
+
             <div className="flex items-start gap-3">
               <MapPin className="w-5 h-5 text-sky-600 mt-1" />
               <p>{location.address}</p>
             </div>
-            
+
             <div className="flex items-center gap-3">
               <Phone className="w-5 h-5 text-sky-600" />
               <p>{location.phone}</p>
             </div>
-            
+
             <div className="flex items-center gap-3">
               <Mail className="w-5 h-5 text-sky-600" />
               <p>{location.email}</p>
             </div>
-            
+
             <div className="flex items-center gap-3">
               <Clock className="w-5 h-5 text-sky-600" />
               <p>{location.hours}</p>
@@ -59,8 +59,8 @@ export default function ContactPage() {
       <div className="mt-12">
         <h2 className="text-2xl font-bold mb-4">Get in Touch</h2>
         <p className="text-gray-600 mb-4">
-          Have questions about our services? Feel free to reach out to us through any of our branches
-          or send us an email. We typically respond within 24 hours.
+          Have questions about our services? Feel free to reach out to us through any of our branches or send us an
+          email. We typically respond within 24 hours.
         </p>
         <p className="text-gray-600">
           For emergency requests or same-day service, please call us directly at any of our locations.
@@ -68,4 +68,5 @@ export default function ContactPage() {
       </div>
     </div>
   )
-} 
+}
+
