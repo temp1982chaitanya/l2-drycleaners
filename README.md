@@ -34,8 +34,8 @@ A modern web application for a dry cleaning service built with Next.js, TypeScri
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/l2drycleaners.git
-   cd l2drycleaners
+   git clone https://github.com/yourusername/l2-drycleaners.git
+   cd l2-drycleaners
    ```
 
 2. Install dependencies:
@@ -71,7 +71,7 @@ A modern web application for a dry cleaning service built with Next.js, TypeScri
 ## Project Structure
 
 ```
-l2drycleaners/
+l2-drycleaners/
 ├── app/                    # Next.js app directory
 │   ├── api/               # API routes
 │   ├── (routes)/         # App routes
